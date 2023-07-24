@@ -9,7 +9,7 @@
 <div class="container mainArea">
 	<!-- 大標題1：過去訂單記錄 -->
 	<div class="bigBox">
-		<h3 class="" style="margin-left: 10px;">訂單 #${orderNo} </h3>
+		<h3 class="" style="margin-left: 10px;"><a href="<c:url value="/orderHistory" />" style="width:150px"><i class="fa-solid fa-arrow-left" style="color:orange"></i></a> 訂單 #${orderNo} </h3>
 		<h6 style="margin-left: 20px;margin-right:20px;color:gray"><i class="fa-sharp fa-solid fa-location-dot" style="color:orange"></i> 訂購於 T&YOU café</h6>
 		<h6 style="margin-left: 20px;margin-right:20px;color:gray"><i class="fa-solid fa-calendar-days" style="color:orange"></i> 訂單時間 ${orderTime}</h6>
 		<c:forEach items="${detailList}" var="data" varStatus="loop">
@@ -42,11 +42,12 @@
 	</div>
 	<hr>
 	<div class="bigBox">
-					<h5 class="" style="font-family: monospace; margin-top: 10px;margin-left: 20px;">付款方式</h5>
-					<div class="align-items-center" style="margin-left: 20px;margin-right:20px">
-					<div class=""><span><img src="<c:url value="/resources/assets/img/LINE-Pay.png"/>" ></span><span style="font-size:10px;float:right;height:20px;color:gray">$ ${totalPrice}</span></div>
-			</div>
+				<h5 class="" style="font-family: monospace; margin-top: 10px;margin-left: 20px;">付款方式</h5>
+				<div class="align-items-center" style="margin-left: 20px;margin-right:20px">
+				<div class=""><span><img src="<c:url value="/resources/assets/img/LINE-Pay.png"/>" ></span><span style="font-size:10px;float:right;height:20px;color:gray">$ ${totalPrice}</span></div>
 		</div>
+	</div>
+	<div  style="position: relative;display: block;height: 60px;"></div>
 </div>
 <script>
 </script>

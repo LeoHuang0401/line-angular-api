@@ -22,7 +22,7 @@
 					<div><span class="fs-6">${data.storeName}</span></div>
 					<div><span class="fs-6">$ ${data.totalPrice}</span></div>
 					<div><span class="fs-6">${data.orderTime}</span></div>
-					<div><span class="fs-6">${data.remark}</span></div>
+					<div><span class="fs-6" id="remark">${data.remark}</span></div>
 				</div>
 				<div class="col-3 text-center">
 				</div>
@@ -36,7 +36,8 @@
 	</form>
 </div>
 <script>
-	<!-- 轉跳至商品明細頁面 -->
+	
+	<!-- 轉跳至訂單明細頁面 -->
 	function showHistory(orderNo,totalPrice,orderTime){
 		$('#orderN').val(orderNo);
 		$('#totalPrice').val(totalPrice);

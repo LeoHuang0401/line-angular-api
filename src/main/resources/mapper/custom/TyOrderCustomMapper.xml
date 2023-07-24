@@ -58,7 +58,7 @@
 		   ,TO_CHAR(a.ORDER_TIME ,'MM/DD,HH24:mi') AS ORDER_TIME 
 		   ,a.GET_TIME 
 		   ,b.STORE_NAME 
-		   ,c.REMARK
+		   ,CASE WHEN length(c.remark) > 12 THEN substr(c.remark,0,12) || '更多...' ELSE c.remark END AS REMARK 
 	FROM TY_ORDER a
 	LEFT JOIN store b ON a.STORE_ID = b.STORE_ID 
 	LEFT JOIN 

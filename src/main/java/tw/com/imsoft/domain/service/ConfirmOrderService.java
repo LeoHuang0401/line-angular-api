@@ -62,11 +62,110 @@ public class ConfirmOrderService {
     /*
      * 消費者付款請求 RequestApi
      */
-    public String requestApi(HttpServletRequest req, String takeTime) {
-        String totalPrice = req.getSession().getAttribute("totalPrice").toString();
-        List<OrderToShopCar> shopCarList =(List) req.getSession().getAttribute("productData");
+//    public String requestApi(HttpServletRequest req, String takeTime) {
+//        String totalPrice = req.getSession().getAttribute("totalPrice").toString();
+//        List<OrderToShopCar> shopCarList =(List) req.getSession().getAttribute("productData");
+//        String sucessUrl = "";
+//        String failUrl = "https://service.imsoft.com.tw/onlineOrder/order";
+//        // ty_order orderNo編號
+//        int count = tyOrderCustomMapper.getCount();
+//        int orderNo = count+1;
+//        // ty_order_detail 編號
+//        int detailCount = tyOrderDetailCustomMapper.getCount();
+//        if(shopCarList != null && !shopCarList.isEmpty()) {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//    //      訂單資料
+//    //      訂單總金額、幣種、訂單編號
+//            CheckoutPaymentRequestForm form = new CheckoutPaymentRequestForm();
+//            form.setAmount(new BigDecimal(totalPrice));
+//            form.setCurrency("TWD");
+//            form.setOrderId(String.valueOf(orderNo));
+//    //      店家資料及商品總額
+//            ProductPackageForm productPackageForm = new ProductPackageForm();
+//            productPackageForm.setId("1");
+//            productPackageForm.setName("T&YOU");
+//            productPackageForm.setAmount(new BigDecimal(totalPrice));
+//    //      商品名稱、圖片、數量、金額
+//            List<ProductForm> productFormList = new ArrayList<>();
+//            List<TyOrderDetail> detailList = new ArrayList<>();
+//            for(OrderToShopCar ots : shopCarList) {
+//                ProductForm productForm = new ProductForm();
+//                productForm.setId(ots.getProductId());
+//                productForm.setName(ots.getProductName());
+//                productForm.setImageUrl("");
+//                productForm.setQuantity(new BigDecimal(ots.getNum()));
+//                productForm.setPrice(new BigDecimal(ots.getFinalPrice()));
+//                productFormList.add(productForm);
+//             // insert ty_order_detail
+//                TyOrderDetail tyOrderDetail = new TyOrderDetail();
+//                tyOrderDetail.setOrderDetailNo(new BigDecimal(detailCount+1));
+//                tyOrderDetail.setOrderNo(new BigDecimal(String.valueOf(orderNo)));
+//                tyOrderDetail.setProductSizeId(new BigDecimal(ots.getProductSizeId()));
+//                tyOrderDetail.setRemark(ots.getProductName()+"("+ots.getIce()+"/"+ots.getSweet()+")");
+//                tyOrderDetail.setNum(new BigDecimal(ots.getNum()));
+//                tyOrderDetail.setSum(new BigDecimal((Integer.parseInt(ots.getFinalPrice()) * ots.getNum())));
+//                detailCount++;
+//                detailList.add(tyOrderDetail);
+//            }
+//            productPackageForm.setProducts(productFormList);
+//    
+//            form.setPackages((Arrays.asList(productPackageForm)));
+//    //      付款成功後的轉導頁面
+//            RedirectUrls redirectUrls = new RedirectUrls();
+//            // 本地
+////            redirectUrls.setConfirmUrl("http://localhost:8081/onlineOrder/confirmOrder/checkPay");
+////            redirectUrls.setCancelUrl("http://localhost:8081/onlineOrder/order");
+//            // server
+//            redirectUrls.setConfirmUrl("https://service.imsoft.com.tw/onlineOrder/confirmOrder/checkPay");
+//            redirectUrls.setCancelUrl("https://service.imsoft.com.tw/onlineOrder/order");
+//            form.setRedirectUrls(redirectUrls);
+//    
+//            // insert ty_order 訂單資料表
+//            TyOrder tyOrder = new TyOrder();
+//            tyOrder.setOrderNo(new BigDecimal(String.valueOf(orderNo)));
+//            tyOrder.setMemId(req.getSession().getAttribute("uLineId").toString());
+//            tyOrder.setStoreId(new BigDecimal(1));
+//            tyOrder.setTotalPrice(form.getAmount());
+//            tyOrder.setOrderTime(LocalDateTime.now());
+//            tyOrder.setGetTime(LocalDateTime.parse(LocalDate.now() + " " + takeTime,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+//            tyOrder.setStatus("N");
+//            tyOrderMapper.insertSelective(tyOrder);
+//            //把取餐時間放進session 訂單完成所需
+//            req.getSession().setAttribute("takeTime", takeTime);
+//            req.getSession().setAttribute("orderNo", orderNo);
+//            // insert 明細
+//            tyOrderDetailCustomMapper.insertDbDomainSucBatch(detailList);
+//            // 清除session
+//            req.getSession().removeAttribute("productData");
+//            try {
+//    //          產生 requestApi requestHeaders 所需的Uri、隨機數、HmacBase64簽章
+//                String requestUri = "/v3/payments/request";
+//                String nonce = UUID.randomUUID().toString();
+//                String signature = SignatureUtil.encrypt(CHANNEL_SECRET, CHANNEL_SECRET + requestUri + objectMapper.writeValueAsString(form) + nonce);
+//                String httpsUrl = "https://sandbox-api-pay.line.me/v3/payments/request";
+//              //參數為 CHANNEL_ID, UUID , BASE64簽章,Uri,requestBody(jsonData)
+//                JsonNode root = PostApiUtil.sendPost(CHANNEL_ID, nonce, signature, httpsUrl, objectMapper.writeValueAsString(form));
+//                if("0000".equals(root.get("returnCode").asText())) {
+//                    sucessUrl = root.get("info").get("paymentUrl").get("web").asText();
+//                    return sucessUrl;
+//                }else {
+//                   return failUrl;
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return failUrl;
+//    }
+    
+    /*
+     * 消費者付款請求 RequestApi
+     */
+    public String requestApi(List<OrderToShopCar> dataList, String takeTime, String totalPrice, String uLineD) {
+        String totalPriceFinal = totalPrice;
+        List<OrderToShopCar> shopCarList = dataList;
         String sucessUrl = "";
-        String failUrl = "https://service.imsoft.com.tw/onlineOrder/order";
+        String failUrl = "http://localhost:4200/onlineOrder/order";
         // ty_order orderNo編號
         int count = tyOrderCustomMapper.getCount();
         int orderNo = count+1;
@@ -77,14 +176,14 @@ public class ConfirmOrderService {
     //      訂單資料
     //      訂單總金額、幣種、訂單編號
             CheckoutPaymentRequestForm form = new CheckoutPaymentRequestForm();
-            form.setAmount(new BigDecimal(totalPrice));
+            form.setAmount(new BigDecimal(totalPriceFinal));
             form.setCurrency("TWD");
             form.setOrderId(String.valueOf(orderNo));
     //      店家資料及商品總額
             ProductPackageForm productPackageForm = new ProductPackageForm();
             productPackageForm.setId("1");
             productPackageForm.setName("T&YOU");
-            productPackageForm.setAmount(new BigDecimal(totalPrice));
+            productPackageForm.setAmount(new BigDecimal(totalPriceFinal));
     //      商品名稱、圖片、數量、金額
             List<ProductForm> productFormList = new ArrayList<>();
             List<TyOrderDetail> detailList = new ArrayList<>();
@@ -94,7 +193,7 @@ public class ConfirmOrderService {
                 productForm.setName(ots.getProductName());
                 productForm.setImageUrl("");
                 productForm.setQuantity(new BigDecimal(ots.getNum()));
-                productForm.setPrice(new BigDecimal(ots.getPrice()));
+                productForm.setPrice(new BigDecimal(ots.getFinalPrice()));
                 productFormList.add(productForm);
              // insert ty_order_detail
                 TyOrderDetail tyOrderDetail = new TyOrderDetail();
@@ -103,7 +202,7 @@ public class ConfirmOrderService {
                 tyOrderDetail.setProductSizeId(new BigDecimal(ots.getProductSizeId()));
                 tyOrderDetail.setRemark(ots.getProductName()+"("+ots.getIce()+"/"+ots.getSweet()+")");
                 tyOrderDetail.setNum(new BigDecimal(ots.getNum()));
-                tyOrderDetail.setSum(new BigDecimal((Integer.parseInt(ots.getPrice()) * ots.getNum())));
+                tyOrderDetail.setSum(new BigDecimal((Integer.parseInt(ots.getFinalPrice()) * ots.getNum())));
                 detailCount++;
                 detailList.add(tyOrderDetail);
             }
@@ -113,30 +212,27 @@ public class ConfirmOrderService {
     //      付款成功後的轉導頁面
             RedirectUrls redirectUrls = new RedirectUrls();
             // 本地
-//            redirectUrls.setConfirmUrl("http://localhost:8081/onlineOrder/confirmOrder/checkPay");
+            redirectUrls.setConfirmUrl("http://localhost:4200/onlineOrder/confirmApi");
 //            redirectUrls.setCancelUrl("http://localhost:8081/onlineOrder/order");
             // server
-            redirectUrls.setConfirmUrl("https://service.imsoft.com.tw/onlineOrder/confirmOrder/checkPay");
-            redirectUrls.setCancelUrl("https://service.imsoft.com.tw/onlineOrder/order");
+//            redirectUrls.setConfirmUrl("https://service.imsoft.com.tw/onlineOrder/confirmOrder/checkPay");
+            redirectUrls.setCancelUrl("http://localhost:4200/onlineOrder/order");
             form.setRedirectUrls(redirectUrls);
     
             // insert ty_order 訂單資料表
             TyOrder tyOrder = new TyOrder();
             tyOrder.setOrderNo(new BigDecimal(String.valueOf(orderNo)));
-            tyOrder.setMemId(req.getSession().getAttribute("uLineId").toString());
+            tyOrder.setMemId(uLineD);
             tyOrder.setStoreId(new BigDecimal(1));
             tyOrder.setTotalPrice(form.getAmount());
             tyOrder.setOrderTime(LocalDateTime.now());
             tyOrder.setGetTime(LocalDateTime.parse(LocalDate.now() + " " + takeTime,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
             tyOrder.setStatus("N");
             tyOrderMapper.insertSelective(tyOrder);
-            //把取餐時間放進session 訂單完成所需
-            req.getSession().setAttribute("takeTime", takeTime);
-            req.getSession().setAttribute("orderNo", orderNo);
             // insert 明細
             tyOrderDetailCustomMapper.insertDbDomainSucBatch(detailList);
             // 清除session
-            req.getSession().removeAttribute("productData");
+//            req.getSession().removeAttribute("productData");
             try {
     //          產生 requestApi requestHeaders 所需的Uri、隨機數、HmacBase64簽章
                 String requestUri = "/v3/payments/request";
@@ -161,7 +257,7 @@ public class ConfirmOrderService {
     /*
      * 商家請款 ConfirmApi
      */
-    public void confirmApi(String transactionId,String orderId) {
+    public String confirmApi(String transactionId,String orderId) {
         // 將訂單狀態改為 Y(已付款)
         TyOrder tyOrder = new TyOrder();
         tyOrder.setOrderNo(new BigDecimal(orderId));
@@ -173,6 +269,7 @@ public class ConfirmOrderService {
         ConfirmData confirmData = new ConfirmData();
         confirmData.setAmount(totalPrice);
         confirmData.setCurrency("TWD");
+        String returnCode = "";
         try {
 //          產生 confirmApi requestHeaders 所需的Uri、隨機數、HmacBase64簽章
             String requestUri = "/v3/payments/" + transactionId + "/confirm";
@@ -182,9 +279,10 @@ public class ConfirmOrderService {
             String httpsUrl = "https://sandbox-api-pay.line.me/v3/payments/" + transactionId + "/confirm";
             //參數為 CHANNEL_ID, UUID , BASE64簽章,Uri,requestBody(jsonData)
             JsonNode root = PostApiUtil.sendPost(CHANNEL_ID, nonce, signature, httpsUrl, objectMapper.writeValueAsString(confirmData));
-                
+            returnCode = root.get("returnCode").asText();       
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        return returnCode;
     }
 }

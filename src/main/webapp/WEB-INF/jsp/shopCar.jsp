@@ -9,9 +9,8 @@
 <c:choose>
 <c:when test="${!empty dataList}">
 <div class="container mainArea">
-	
 	<!-- 大標題1：購物車 -->
-	<div class="bigBox">
+	<div class="bigBox" >
 		<h5 class="" style="margin-left:20px"> 購物車</h5>
 		<c:forEach items="${dataList}" var="data" varStatus="loop">
 <%-- 		onclick="edit(${loop.index});" --%>
@@ -33,12 +32,13 @@
 			</div>
 		</div>
 		</c:forEach>
-	</div>
 	<!-- 按鈕(固定在最下面) -->
-	<div class="fixed-bottom" style="height: 120px;margin-bottom:3px;bottom: 50px !important;">
+</div>
+	<div  style="position: relative;display: block;height: 60px;"></div>
+	<div class="fixed-bottom" style="height: 120px;margin-bottom:3px;bottom: 50px !important;margin-top:10px">
 		<div class="row" style="height: 100%;">
 			<div style="background: #FFF3DE">
-				<span class="fs-5" style="float:right;margin-right:10px">應付金額： ${total.totalPrice}</span><span class="fs-5" style="float:right;margin-right:20px">數量： ${total.totalNum}</span>
+				<span class="fs-5" style="float:right;margin-right:10px">應付金額： ${total.totalPrice}</span><span class="fs-5" style="float:right;margin-right:20px">數量<span style="font-size:10px">(杯)</span>： ${total.totalNum}</span>
 			</div>
 			<div class="btn-group" role="group" aria-label="Basic example" >
 				<button type="button" class="btn" style="background: #FFFAF2;font-weight:bold;" onclick="location.href='<c:url value="order"/>'">上一步</button>
@@ -46,7 +46,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+	</div>
 </c:when>
 <c:otherwise>
 <div class="container mainArea">

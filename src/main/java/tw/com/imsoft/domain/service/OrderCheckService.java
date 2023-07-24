@@ -18,8 +18,8 @@ public class OrderCheckService {
      */
     public Map<String,Object> showOrderCheck(HttpServletRequest req) {
         Map<String,Object> totalMap = new HashMap<>();
-            totalMap.put("totalNum", req.getSession().getAttribute("totalNum"));
-            totalMap.put("totalPrice", req.getSession().getAttribute("totalPrice"));
+        totalMap.put("totalNum", req.getSession().getAttribute("totalNum"));
+        totalMap.put("totalPrice", req.getSession().getAttribute("totalPrice"));
         return totalMap;
     }
 }

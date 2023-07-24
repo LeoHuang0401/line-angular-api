@@ -24,7 +24,6 @@ public class OrderHistoryService {
      * 查詢過去訂單資料
      */
     public List<OrderHistoryData> getOrderHistoryData(String memId) {
-        System.out.println("memId => " + memId);
         return tyOrderCustomMapper.getOrderHistoryData(memId);
     }
     
