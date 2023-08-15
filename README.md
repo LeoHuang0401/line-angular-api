@@ -24,3 +24,23 @@
 ```
 /angular/order
 ```
+- 商品詳細資訊
+```
+/angular/order/orderData
+```
+- 將商品加入購物車
+```
+/angular/order/checkToShopCar
+```
+- 購物車畫面
+```
+/angular/shopCar
+```
+- 購物車移除商品
+```
+/angular/shopCar/remove
+```
+- 購物車新增、減少商品數量
+```
+/angular/shopCar/edit
+```
