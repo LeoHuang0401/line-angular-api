@@ -2,7 +2,7 @@
 利用Spring Boot來實作模擬一家咖啡簡餐店的行動預點功能的後端api!  
 搭配Repository - angular-line angular前端框架  
 
-頁面功能說明：
+# 頁面功能說明：
 `OrderController` - 呈現菜單頁面資訊、呈現商品詳細資訊及加入購物車功能api
 
 `ShopCarController` - 呈現購物車頁面資訊、調整數量功能api
