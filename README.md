@@ -1,5 +1,5 @@
 # line-anular-api
-利用Spring Boot來實作模擬一家咖啡簡餐店的行動預點功能的後端api！ 
+利用Spring Boot來實作模擬一家咖啡簡餐店的行動預點功能的後端api!  
 搭配Repository - angular-line angular前端框架  
 
 頁面功能說明：
