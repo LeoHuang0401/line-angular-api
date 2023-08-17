@@ -44,3 +44,31 @@
 ```
 /angular/shopCar/edit
 ```
+- 確認明細及選擇取餐時間
+```
+/orderCheck
+```
+- 確認付款
+```
+/orderCheckPay
+```
+- LINE PAY RequestAPI
+```
+/angular/confirmOrder/checkLinePay
+```
+- LINE PAY ConfirmAPI
+```
+/angular/confirmOrder/checkPay
+```
+- 付款成功頁面
+```
+/sucessPay
+```
+- 過去訂單紀錄
+```
+/angular/orderHistory
+```
+- 過去訂單記錄(詳細資料)
+```
+/angular/orderHistoryDetail
+```
