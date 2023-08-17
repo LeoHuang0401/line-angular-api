@@ -72,3 +72,10 @@
 ```
 /angular/orderHistoryDetail
 ```
+
+# 資料庫使用
+- Oracle 19c
+- Mybatis
+
+# 前端頁面
+- angular-line(https://github.com/LeoHuang0401/angular-line)
