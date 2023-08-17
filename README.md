@@ -76,6 +76,9 @@
 # 資料庫使用
 - Oracle 19c
 - Mybatis
+ 
+# 登入方式
+- LINE LIFF 串聯 Line登入
 
 # 前端頁面
 - angular-line(https://github.com/LeoHuang0401/angular-line)
